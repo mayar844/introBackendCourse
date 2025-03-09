@@ -15,9 +15,9 @@ const prisma = new PrismaClient()
 app.get("/users" ,async(req,res) => {
     try{
     const data=await prisma.user.findMany()
-    console.log(data[0]);
+
     if(data.length===0) return res.status(404).send({message:"users not found"})
-    res.status(200).send(data[0]);
+    res.status(200).send(data);
     }catch(err){
         res.status(500).send({error:{message:err.message}})
     }
@@ -30,7 +30,7 @@ app.get("/users/:id" , async(req,res) => {
     const paramsId =req.params.id;
     const data=await prisma.user.findUnique({where:{id:paramsId}})
     if (!data)return res.status(404).send({error:{message:"user not found"}})
-    res.status(200).send(data[0]);
+    res.status(200).send(data);
  }catch(err){
     res.status(500).send({error:{message:err.message}})
  }
